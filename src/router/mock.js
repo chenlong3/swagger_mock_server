@@ -1,6 +1,8 @@
 const fs = require('fs');
 const join = require('path').join;
 var express = require('express');
+const outputPath = require('../../config').outputPath || './src/mockRouter'
+
 var router = express.Router();
 
 function scan(path, app) {
@@ -19,6 +21,6 @@ function scan(path, app) {
   }
 }
 
-scan(join(__dirname, '../mockRouter'), router);
+scan(join(__dirname, '../../', outputPath), router);
 
 module.exports = router;

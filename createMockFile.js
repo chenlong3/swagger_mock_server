@@ -3,13 +3,18 @@ const fs = require('fs');
 const { join } = require('path');
 const { promisify } = require('util');
 const mkdirp = require('mkdirp');
+const config = require('./config')
 
 const writeFile = promisify(fs.writeFile);
 const mkdir = promisify(mkdirp);
 
 class CreateMockFile{
-  static init({ url, blacklist, outputPath }) {
-    return new CreateMockFile({ url, blacklist, outputPath })
+  static init({ urls, url, blacklist, outputPath }) {
+    if (Array.isArray(urls)) {
+      return urls.map((url) => new CreateMockFile({ url, blacklist, outputPath }))
+    } else {
+      return new CreateMockFile({ url, blacklist, outputPath })
+    }
   }
   constructor({ url, blacklist, outputPath }) {
     this.url = url;
@@ -86,8 +91,4 @@ module.exports = function (app) {
     }
 }
 
-CreateMockFile.init({
-  url: 'https://petstore.swagger.io/v2/swagger.json',
-  blacklist: [],
-  outputPath: './src/mockRouter/api'
-})
+CreateMockFile.init(config)
