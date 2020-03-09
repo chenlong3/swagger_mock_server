@@ -42,7 +42,7 @@
 
 打开后端提供的Swagger文档地址的Network，发现有个api-docs文件。
 
-![avatar](https://yqfile.alicdn.com/0460f4464be492c15debd7daec6f3f1aac2768cd.jpeg)
+![avatar](./assets/api-docs.jpeg)
 
 ## License
 
