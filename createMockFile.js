@@ -26,6 +26,8 @@ class CreateMockFile{
   parse() {
     swaggerParserMock(this.url).then(({ basePath, paths }) => {
       this.traverse(basePath, paths)
+    }).catch((err) => {
+      console.error(err)
     })
   }
 
