@@ -24,14 +24,15 @@ class CreateMockFile{
   }
 
   parse() {
-    swaggerParserMock(this.url).then(({paths}) => {
-      this.traverse(paths)
+    swaggerParserMock(this.url).then(({ basePath, paths }) => {
+      this.traverse(basePath, paths)
     })
   }
 
-  traverse(paths) {
+  traverse(basePath, paths) {
     for (let path in paths) {
-      if (this.blacklist.includes(path)) {
+      const APIURL = basePath + path
+      if (this.blacklist.includes(APIURL)) {
         continue;
       }
 
@@ -41,7 +42,7 @@ class CreateMockFile{
         if (!pathInfo['responses']['200']) {
           continue;
         }
-        this.generate(path, method, pathInfo);
+        this.generate(APIURL, method, pathInfo);
       }
     }
   }
@@ -83,7 +84,7 @@ ${summary}
 **/
 const Mock = require("mockjs");
 module.exports = function (app) {
-  app.${method}('/api${path.replace(/\{([^}]*)\}/g, ":$1")}', (req, res) => {
+  app.${method}('${path.replace(/\{([^}]*)\}/g, ":$1")}', (req, res) => {
     const data = ${example};
     res.json(Mock.mock(data));
   });
